@@ -1,2 +1,3 @@
-# Facebook-HTMXGO
-Facebook clone with HTMX2.0 and Golang
+make css
+air
+templ generate --watch --proxy=http://localhost:4000
