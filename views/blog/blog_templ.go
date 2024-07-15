@@ -8,7 +8,9 @@ package blog
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "facebookhtmx/views/layouts"
+import (
+	"facebookhtmx/views/layouts"
+)
 
 type contextKey string
 
@@ -83,7 +85,7 @@ func partial() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!-- Content Partial --><div hx-swap-oob=\"true\" id=\"content\" class=\"flex items-start justify-center h-full bg-gray-50\"><div class=\"text-xl border border-red-400 text-blue-500 font-bold \">Blog Page!</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

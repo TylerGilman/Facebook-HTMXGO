@@ -1,7 +1,7 @@
 package blog
 
-import "facebookhtmx/views/layouts"
-
+import ("facebookhtmx/views/layouts"
+)
 
 type contextKey string
 
@@ -17,9 +17,6 @@ templ Blog() {
 }
 
 templ partial() {
-
-  <!-- Nav Bar Partial -->
-
   <!-- Content Partial -->
 	<div hx-swap-oob="true" id="content" class="flex items-start justify-center h-full bg-gray-50">
 		<div class="text-xl border border-red-400 text-blue-500 font-bold ">

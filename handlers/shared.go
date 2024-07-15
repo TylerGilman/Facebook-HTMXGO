@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"log/slog"
 	"net/http"
 
@@ -20,4 +21,14 @@ func Make(h HTTPHandler) http.HandlerFunc {
 
 func Render(w http.ResponseWriter, r *http.Request, c templ.Component) error {
 	return c.Render(r.Context(), w)
+}
+
+type contextKey string
+
+const HtmxRequestKey contextKey = "HX-Request"
+
+func setHtmxContext(r *http.Request) *http.Request {
+	htmxRequest := r.Header.Get("HX-Request")
+	ctx := context.WithValue(r.Context(), HtmxRequestKey, htmxRequest)
+	return r.WithContext(ctx)
 }

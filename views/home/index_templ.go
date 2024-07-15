@@ -8,7 +8,13 @@ package home
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "facebookhtmx/views/layouts"
+import (
+	"facebookhtmx/views/layouts"
+)
+
+type contextKey string
+
+const HtmxRequestKey contextKey = "HX-Request"
 
 func Index() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -28,7 +34,7 @@ func Index() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		if ctx.Value("HX-Request") == "true" {
+		if ctx.Value(HtmxRequestKey) == "true" {
 			templ_7745c5c3_Err = partial().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -79,7 +85,7 @@ func partial() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"content\" hx-swap-oob=\"true\" class=\"flex items-start justify-center h-full bg-gray-50\"><div class=\"text-xl border border-red-400 text-blue-500 font-bold \">Home Page!</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

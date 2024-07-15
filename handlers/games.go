@@ -1,13 +1,13 @@
 package handlers
 
 import (
-	"facebookhtmx/views/home"
+	"facebookhtmx/views/games"
 	"log"
 	"net/http"
 )
 
-func HandleHome(w http.ResponseWriter, r *http.Request) error {
+func HandleGames(w http.ResponseWriter, r *http.Request) error {
 	r = setHtmxContext(r)
 	log.Printf("HX-Request: %s", r.Context().Value(HtmxRequestKey))
-	return Render(w, r, home.Index())
+	return Render(w, r, games.Games())
 }
