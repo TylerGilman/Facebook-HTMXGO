@@ -3,11 +3,19 @@ package home
 import "facebookhtmx/views/layouts"
 
 templ Index() {
-	@layouts.Base() {
-		<div class="flex items-start justify-center h-full bg-gray-50">
-			<div class="text-xl border border-red-400 text-blue-500 font-bold ">
-				Home Page!
-			</div>
-		</div>
+	if ctx.Value("HX-Request") == "true" {
+		@partial()
+	} else {
+		@layouts.Base("home") {
+			@partial()
+		}
 	}
+}
+
+templ partial() {
+	<div id="content" name="content" class="flex items-start justify-center h-full bg-gray-50">
+		<div class="text-xl border border-red-400 text-blue-500 font-bold ">
+			Home Page!
+		</div>
+	</div>
 }

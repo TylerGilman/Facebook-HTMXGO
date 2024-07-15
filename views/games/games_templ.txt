@@ -1,0 +1,2 @@
+<script type=\"text/javascript\">\n            console.log(\"Games Page Loaded!\");\n        </script> 
+<div class=\"flex items-start justify-center h-full bg-gray-50\"><div class=\"text-xl border border-red-400 text-blue-500 font-bold \">Games Page!</div></div>

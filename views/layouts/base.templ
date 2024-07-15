@@ -2,7 +2,7 @@ package layouts
 
 import "facebookhtmx/views/components"
 
-templ Base() {
+templ Base(page_mode string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -16,7 +16,7 @@ templ Base() {
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
 		</head>
 		<body class="antialiased">
-			@components.Navigation()
+			@components.Navigation(page_mode)
 			{ children... }
 		</body>
 	</html>

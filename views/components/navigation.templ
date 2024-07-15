@@ -1,40 +1,45 @@
 package components
 
-templ Navigation() {
+templ Navigation(page_mode string) {
 	<div class="border-b border-gray-800 py-2">
 		<div class="container mx-auto">
 			<div class="flex justify-between">
 				<div class="absolute flex left-0">
-					<div id="image-wrapper" class="m-2">
+					<!-- Logo -->
+					<div id="logo-wrapper" class="m-2">
 						<svg fill="none" height="28" width="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 124 141.53199999999998"><path d="M10.383 126.894L0 0l124 .255-10.979 126.639-50.553 14.638z" fill="#e34f26"></path><path d="M62.468 129.277V12.085l51.064.17-9.106 104.851z" fill="#ef652a"></path><path d="M99.49 41.362l1.446-15.49H22.383l4.34 47.49h54.213L78.81 93.617l-17.362 4.68-17.617-5.106-.936-12.085H27.319l2.128 24.681 32 8.936 32.255-8.936 4.34-48.17H41.107L39.49 41.362z" fill="#fff"></path></svg>
 					</div>
-					<div class="relative">
-						<div id="magnifier-icon" class="absolute left-3 top-1/2 -translate-y-1/2">
-							<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path
-									d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
-									stroke="#6B7280"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								></path>
-								<path d="m21 21-4.35-4.35" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-							</svg>
-						</div>
-						<input
-							type="text"
-							class="pl-10 pr-2 py-2 rounded-md border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-300 ease-in-out"
-							placeholder="Search HTMLBook"
-						/>
-					</div>
 				</div>
+				<!-- -->
+				<!-- Search Bar -->
+				<div class="relative">
+					<div id="magnifier-icon" class="absolute left-3 top-1/2 -translate-y-1/2">
+						<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path
+								d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+								stroke="#6B7280"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							></path>
+							<path d="m21 21-4.35-4.35" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+						</svg>
+					</div>
+					<input
+						type="text"
+						class="pl-10 pr-2 py-2 rounded-md border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-300 ease-in-out"
+						placeholder="Search HTMLBook"
+					/>
+				</div>
+				<!-- -->
+				<!-- Navigation Menu -->
 				<div id="page-mode-menu" class="mx-auto flex">
-					<div class="hover:bg-slate-200 py-1 px-8 rounded-md border-b-2 border-blue-500">
+					<div id="home" class="hover:bg-slate-200 py-1 px-8 rounded-md border-b-2 border-blue-500">
 						<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 							<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="#000000"></path>
 						</svg>
 					</div>
-					<div class="hover:bg-slate-200 py-1 px-8 rounded-md">
+					<div id="friends" class="hover:bg-slate-200 py-1 px-8 rounded-md">
 						<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 							<g fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round">
 								<!-- Left figure -->
@@ -52,12 +57,12 @@ templ Navigation() {
 							</g>
 						</svg>
 					</div>
-					<div class="hover:bg-slate-200 py-1 px-8 rounded-md">
+					<div hx-get="/?page_mode=games" hx-target="#content" id="games" class="hover:bg-slate-200 py-1 px-8 rounded-md">
 						<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 							<path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z" fill="#000000"></path>
 						</svg>
 					</div>
-					<div class="hover:bg-slate-200 py-1 px-8 rounded-md">
+					<div id="blog" class="hover:bg-slate-200 py-1 px-8 rounded-md">
 						<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 							<g fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 								<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -68,7 +73,8 @@ templ Navigation() {
 						</svg>
 					</div>
 				</div>
-				<!-- Right most Icons -->
+				<!-- -->
+				<!-- Extra Options Icons -->
 				<div class="flex justify-right">
 					<div class="space-x-2 flex text-blue-500">
 						<div class="rounded-full bg-slate-200 py-2 px-2">
