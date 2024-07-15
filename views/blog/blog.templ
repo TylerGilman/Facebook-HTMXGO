@@ -1,0 +1,29 @@
+package blog
+
+import "facebookhtmx/views/layouts"
+
+
+type contextKey string
+
+const HtmxRequestKey contextKey = "HX-Request"
+templ Blog() {
+    if ctx.Value(HtmxRequestKey) == "true" {
+        @partial()
+    } else {
+		@layouts.Base("blog") {
+			@partial()
+		}
+    }
+}
+
+templ partial() {
+
+  <!-- Nav Bar Partial -->
+
+  <!-- Content Partial -->
+	<div hx-swap-oob="true" id="content" class="flex items-start justify-center h-full bg-gray-50">
+		<div class="text-xl border border-red-400 text-blue-500 font-bold ">
+			Blog Page!
+		</div>
+	</div>
+}
