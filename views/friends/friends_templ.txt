@@ -1,1 +1,0 @@
-<div id=\"content\" hx-swap-oob=\"true\" class=\"flex items-start justify-center h-full bg-gray-50\"><div class=\"text-xl border border-red-400 text-blue-500 font-bold\">Friends page</div></div>

@@ -14,7 +14,37 @@ templ Partial() {
     <div id="content" class="flex items-start justify-center h-full bg-gray-50"
          hx-swap-oob="true">
         <div class="text-xl border border-red-400 text-blue-500 font-bold">
-            Games Page
+            <h1>Games Page</h1>
+            <p>Pong</p> 
+            <div id="game-container" class="relative">
+                <iframe id="pong-frame" src="/static/games/pong.html" width="750" height="585" style="pointer-events: none;"></iframe>
+                <div id="game-overlay" class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 text-white cursor-pointer">
+                    Click to play
+                </div>
+            </div>
         </div>
     </div>
+    <script>
+    (function() {
+        const frame = document.getElementById('pong-frame');
+        const overlay = document.getElementById('game-overlay');
+        const container = document.getElementById('game-container');
+
+        function sendMessage(msg) {
+            frame.contentWindow.postMessage(msg, '*');
+        }
+
+        overlay.addEventListener('click', function() {
+            sendMessage('start');
+            overlay.style.display = 'none';
+            frame.style.pointerEvents = 'auto';
+        });
+
+        container.addEventListener('mouseleave', function() {
+            sendMessage('stop');
+            overlay.style.display = 'flex';
+            frame.style.pointerEvents = 'none';
+        });
+    })();
+    </script>
 }
