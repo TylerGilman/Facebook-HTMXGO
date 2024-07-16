@@ -1,27 +1,20 @@
 package games
 
 import (
-"facebookhtmx/views/layouts"
+    "facebookhtmx/views/layouts"
 )
 
-type contextKey string
-
-const HtmxRequestKey contextKey = "HX-Request"
 templ Games() {
-    if ctx.Value(HtmxRequestKey) == "true" {
-        @partial()
-    } else {
-		@layouts.Base("games") {
-			@partial()
-		}
+    @layouts.Base("games") {
+        @Partial()
     }
 }
 
-templ partial() {
-  <!-- Content Partial -->
-	<div hx-swap-oob="true" id="content" class="flex items-start justify-center h-full bg-gray-50">
-		<div class="text-xl border border-red-400 text-blue-500 font-bold ">
-			Games Page!
-		</div>
-	</div>
+templ Partial() {
+    <div id="content" class="flex items-start justify-center h-full bg-gray-50"
+         hx-swap-oob="true">
+        <div class="text-xl border border-red-400 text-blue-500 font-bold">
+            Games Page
+        </div>
+    </div>
 }

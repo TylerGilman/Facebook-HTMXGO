@@ -113,69 +113,58 @@ templ blogSVG() {
 }
 
 templ MainNavBar(page_mode string) {
-  <nav hx-boost="true" id="nav_wrapper" class="border-b border-gray-200">
+  <div id="nav_wrapper" hx-boost="true" class="border-b border-gray-200">
+    <input type="hidden" id="page_mode_input" name="page_mode" value={page_mode} />
     <div id="page_mode_menu" class="mx-auto flex justify-center space-x-4">
-      <a href="/" class={ "nav-item relative py-2 px-4 cursor-pointer hover:bg-gray-100 rounded-md transition-all duration-300 ease-in-out", templ.KV("text-blue-500", page_mode == "home") }>
+      <a hx-get="/home" href="/home" hx-target="#content" hx-push-url="true" class="nav-item relative py-2 px-4 cursor-pointer hover:bg-gray-100 rounded-md transition-all duration-300 ease-in-out">
         @homeSVG()
-        <div class={ "absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transition-transform duration-300 ease-in-out", templ.KV("scale-x-100", page_mode == "home"), templ.KV("scale-x-0", page_mode != "home") }></div>
+        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform scale-x-0 transition-transform duration-300 ease-in-out"></div>
       </a>
-      <a href="/friends" class={ "nav-item relative py-2 px-4 cursor-pointer hover:bg-gray-100 rounded-md transition-all duration-300 ease-in-out", templ.KV("text-blue-500", page_mode == "friends") }>
+      <a hx-get="/friends" href="/friends" hx-target="#content" hx-push-url="true" class="nav-item relative py-2 px-4 cursor-pointer hover:bg-gray-100 rounded-md transition-all duration-300 ease-in-out">
         @friendsSVG()
-        <div class={ "absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transition-transform duration-300 ease-in-out", templ.KV("scale-x-100", page_mode == "friends"), templ.KV("scale-x-0", page_mode != "friends") }></div>
+        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform scale-x-0 transition-transform duration-300 ease-in-out"></div>
       </a>
-      <a href="/games" class={ "nav-item relative py-2 px-4 cursor-pointer hover:bg-gray-100 rounded-md transition-all duration-300 ease-in-out", templ.KV("text-blue-500", page_mode == "games") }>
+      <a hx-get="/games" href="/games" hx-target="#content" hx-push-url="true" class="nav-item relative py-2 px-4 cursor-pointer hover:bg-gray-100 rounded-md transition-all duration-300 ease-in-out">
         @gamesSVG()
-        <div class={ "absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transition-transform duration-300 ease-in-out", templ.KV("scale-x-100", page_mode == "games"), templ.KV("scale-x-0", page_mode != "games") }></div>
+        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform scale-x-0 transition-transform duration-300 ease-in-out"></div>
       </a>
-      <a href="/blog" class={ "nav-item relative py-2 px-4 cursor-pointer hover:bg-gray-100 rounded-md transition-all duration-300 ease-in-out", templ.KV("text-blue-500", page_mode == "blog") }>
+      <a hx-get="/blog" href="/blog" hx-target="#content" hx-push-url="true" class="nav-item relative py-2 px-4 cursor-pointer hover:bg-gray-100 rounded-md transition-all duration-300 ease-in-out">
         @blogSVG()
-        <div class={ "absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transition-transform duration-300 ease-in-out", templ.KV("scale-x-100", page_mode == "blog"), templ.KV("scale-x-0", page_mode != "blog") }></div>
+        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform scale-x-0 transition-transform duration-300 ease-in-out"></div>
       </a>
     </div>
-  </nav>
-    <script>
-    (function() {
-      function updateSelectedMode(mode) {
-        const menuItems = document.querySelectorAll('.nav-item');
-        menuItems.forEach(item => {
-          const underline = item.querySelector('div:last-child');
-          if (item.id === mode) {
-            underline.classList.remove('scale-x-0');
-            underline.classList.add('scale-x-100');
-          } else {
-            underline.classList.remove('scale-x-100');
-            underline.classList.add('scale-x-0');
-          }
-        });
-      }
+  </div>
+  <script>
+  (function() {
+    function updateSelectedMode(path) {
+      const menuItems = document.querySelectorAll('.nav-item');
+      menuItems.forEach(item => {
+        const underline = item.querySelector('div:last-child');
+        if (item.getAttribute('hx-get') === path) {
+          underline.classList.remove('scale-x-0');
+          underline.classList.add('scale-x-100');
+          item.classList.add('text-blue-500');
+        } else {
+          underline.classList.remove('scale-x-100');
+          underline.classList.add('scale-x-0');
+          item.classList.remove('text-blue-500');
+        }
+      });
+    }
 
-      function initializeNavBar() {
-        const pageModeInput = document.getElementById('page_mode_input');
-        updateSelectedMode(pageModeInput.value);
+    function initializeNavBar() {
+      const currentPath = window.location.pathname;
+      updateSelectedMode(currentPath);
+    }
 
-        const observer = new MutationObserver((mutations) => {
-          mutations.forEach((mutation) => {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
-              updateSelectedMode(pageModeInput.value);
-            }
-          });
-        });
+    // Initialize on page load
+    initializeNavBar();
 
-        observer.observe(pageModeInput, { attributes: true });
-
-        document.querySelectorAll('.nav-item').forEach(item => {
-          item.addEventListener('click', function() {
-            pageModeInput.value = this.id;
-            updateSelectedMode(this.id);
-          });
-        });
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeNavBar);
-      } else {
-        initializeNavBar();
-      }
-    })();
-    </script>
+    // Update on HTMX after-settle event
+    document.body.addEventListener('htmx:afterSettle', function(event) {
+      const currentPath = window.location.pathname;
+      updateSelectedMode(currentPath);
+    });
+  })();
+  </script>
 }

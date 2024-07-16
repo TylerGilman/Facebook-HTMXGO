@@ -8,6 +8,12 @@ import (
 
 func HandleBlog(w http.ResponseWriter, r *http.Request) error {
 	r = setHtmxContext(r)
+	isHtmxRequest := r.Header.Get("HX-Request") == "true"
 	log.Printf("HX-Request: %s", r.Context().Value(HtmxRequestKey))
-	return Render(w, r, blog.Blog())
+
+	if isHtmxRequest {
+		return Render(w, r, blog.Partial())
+	} else {
+		return Render(w, r, blog.Blog())
+	}
 }

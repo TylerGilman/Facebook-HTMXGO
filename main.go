@@ -1,6 +1,7 @@
 package main
 
 import (
+	"facebookhtmx/handlers"
 	"log"
 	"log/slog"
 	"net/http"
@@ -8,18 +9,24 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
-
-	"facebookhtmx/handlers"
 )
 
 func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Fatal(err)
 	}
-	router := chi.NewMux()
 
+	router := chi.NewMux()
 	router.Handle("/*", public())
-	router.Get("/", handlers.Make(handlers.HandleHome))
+
+	// Redirect "/" to "/home"
+	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/home", http.StatusMovedPermanently)
+	})
+
+	// Add a new route for "/home"
+	router.Get("/home", handlers.Make(handlers.HandleHome))
+
 	router.Get("/friends", handlers.Make(handlers.HandleFriends))
 	router.Get("/games", handlers.Make(handlers.HandleGames))
 	router.Get("/blog", handlers.Make(handlers.HandleBlog))

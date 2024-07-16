@@ -20,6 +20,11 @@ templ Base(page_mode string) {
 			{ children... }
 		</body>
     <script type="text/javascript">
+document.addEventListener('htmx:afterSettle', function(event) {
+    if (window.initializeNavBar) {
+        window.initializeNavBar();
+    }
+});
     </script>
 	</html>
 
