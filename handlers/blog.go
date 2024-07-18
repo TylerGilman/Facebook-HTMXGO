@@ -2,50 +2,42 @@ package handlers
 
 import (
 	"facebookhtmx/views/blog"
-	"log"
+	"log/slog"
 	"net/http"
 )
 
 func HandleBlog(w http.ResponseWriter, r *http.Request) error {
 	r = setHtmxContext(r)
 	isHtmxRequest := r.Header.Get("HX-Request") == "true"
-	log.Printf("HX-Request: %s", r.Context().Value(HtmxRequestKey))
+	slog.Info("HX-Request", "value", r.Context().Value(HtmxRequestKey))
+
+	mainArticles := blog.AllArticles
+	sidebarArticles := blog.GetRandomArticles(7) // Get 7 random articles for sidebar
 
 	if isHtmxRequest {
-		return Render(w, r, blog.Partial())
+		return Render(w, r, blog.Partial(mainArticles, sidebarArticles))
 	} else {
-		return Render(w, r, blog.Blog())
+		return Render(w, r, blog.Blog(mainArticles, sidebarArticles))
 	}
 }
 
 func HandleSearch(w http.ResponseWriter, r *http.Request) error {
-	query := r.FormValue("query")
-	category := r.FormValue("category")
+	query := r.URL.Query().Get("query")
+	category := r.URL.Query().Get("category")
 
-	largeArticles := searchLargeArticles(query, category)
-	smallArticles := searchSmallArticles(query, category)
+	slog.Info("Search parameters", "query", query, "category", category)
 
-	component := blog.ArticleList(largeArticles, smallArticles)
-	return Render(w, r, component)
-}
+	searchResults := blog.SearchArticles(query, category)
 
-func searchLargeArticles(query string, category string) []blog.Article {
-	_ = query
-	_ = category
-	// Implement your search logic
-	return []blog.Article{
-		{Title: "Search Result 1", Author: "Author 1", Date: "Jan 30, 2024", Summary: "Summary 1", ImageUrl: "/path/to/image1.jpg"},
-		{Title: "Search Result 2", Author: "Author 2", Date: "Jan 31, 2024", Summary: "Summary 2", ImageUrl: "/path/to/image2.jpg"},
-	}
-}
-
-func searchSmallArticles(query string, category string) []blog.Article {
-	_ = query
-	_ = category
-	// Implement your search logic
-	return []blog.Article{
-		{Title: "Small Result 1", Category: "Tech", Date: "Feb 1, 2024"},
-		{Title: "Small Result 2", Category: "Travel", Date: "Feb 2, 2024"},
-		{Title: "Small Result 3", Category: "Food", Date: "Feb 3, 2024"},
+	// Check if it's an HTMX request
+	if r.Header.Get("HX-Request") == "true" {
+		// Render only the MainArticles component for HTMX requests
+		component := blog.MainArticles(searchResults)
+		return Render(w, r, component)
+	} else {
+		// Render the full page for non-HTMX requests
+		mainArticles := searchResults
+		sidebarArticles := blog.GetRandomArticles(7) // Get 7 random articles for sidebar
+		return Render(w, r, blog.Blog(mainArticles, sidebarArticles))
 	}
 }
