@@ -1,8 +1,9 @@
 package handlers
 
 import (
-	"facebookhtmx/views/games"
 	"net/http"
+
+	"github.com/TylerGilman/facebookhtmx/views/games"
 )
 
 func HandleGames(w http.ResponseWriter, r *http.Request) error {

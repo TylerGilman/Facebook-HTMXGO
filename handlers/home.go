@@ -1,8 +1,9 @@
 package handlers
 
 import (
-	"facebookhtmx/views/home"
 	"net/http"
+
+	"github.com/TylerGilman/facebookhtmx/views/home"
 )
 
 func HandleHome(w http.ResponseWriter, r *http.Request) error {

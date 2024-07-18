@@ -9,7 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"facebookhtmx/views/layouts"
+	"github.com/TylerGilman/facebookhtmx/views/layouts"
 )
 
 func Games() templ.Component {

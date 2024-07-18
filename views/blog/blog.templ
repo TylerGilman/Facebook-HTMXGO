@@ -1,7 +1,7 @@
 package blog
 
 import (
-    "facebookhtmx/views/layouts"
+    "github.com/TylerGilman/facebookhtmx/views/layouts"
 )
 
 templ Blog(mainArticles []Article, sidebarArticles []Article) {
@@ -33,14 +33,10 @@ templ Partial(mainArticles []Article, sidebarArticles []Article) {
                                 hx-target="#main-articles"
                                 hx-indicator="#search-indicator">
                             <option value="">All Categories</option>
+                            <option>Life</option>
                             <option>Technology</option>
-                            <option>Travel</option>
-                            <option>Health</option>
-                            <option>Finance</option>
-                            <option>Food</option>
-                            <option>Lifestyle</option>
-                            <option>Psychology</option>
-                            <option>Business</option>
+                            <option>Philosophy</option>
+                            <option>Random</option>
                         </select>
                     </div>
                     <div class="w-full md:w-1/4 px-2 mb-4">

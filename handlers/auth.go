@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	"facebookhtmx/views/auth"
+	"github.com/TylerGilman/facebookhtmx/views/auth"
 )
 
 func HandleLoginIndex(w http.ResponseWriter, r *http.Request) error {

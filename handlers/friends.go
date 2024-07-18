@@ -1,8 +1,9 @@
 package handlers
 
 import (
-	"facebookhtmx/views/friends"
 	"net/http"
+
+	"github.com/TylerGilman/facebookhtmx/views/friends"
 )
 
 func HandleFriends(w http.ResponseWriter, r *http.Request) error {
