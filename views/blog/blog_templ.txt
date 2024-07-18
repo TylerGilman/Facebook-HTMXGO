@@ -1,0 +1,17 @@
+<div id=\"content\" hx-swap-oob=\"true\" class=\"container mx-auto px-4 py-8\"><!-- Search and Filtering Section --><div class=\"mb-8 bg-white shadow-lg rounded-lg p-6\"><h2 class=\"text-2xl font-bold mb-4\">Search Articles</h2><form hx-post=\"/blog/search\" hx-trigger=\"submit, change\" hx-target=\"#article-list\" hx-indicator=\"#search-indicator\"><div class=\"flex flex-wrap -mx-2\"><div class=\"w-full md:w-1/2 px-2 mb-4\"><input type=\"text\" name=\"query\" placeholder=\"Search...\" class=\"w-full p-2 border rounded\"></div><div class=\"w-full md:w-1/4 px-2 mb-4\"><select name=\"category\" class=\"w-full p-2 border rounded\"><option value=\"\">All Categories</option> <option>Technology</option> <option>Travel</option> <option>Food</option> <option>Lifestyle</option></select></div><div class=\"w-full md:w-1/4 px-2 mb-4\"><button type=\"submit\" class=\"w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600\">Search</button></div></div></form><div id=\"search-indicator\" class=\"htmx-indicator\">Searching...</div></div><div id=\"article-list\" class=\"flex flex-wrap -mx-4\"><!-- Main content (3/5 width) --><div class=\"w-full lg:w-3/5 px-4\"><div class=\"space-y-8\">
+</div></div><!-- Sidebar with smaller article previews (2/5 width) --><div class=\"w-full lg:w-2/5 px-4 mt-8 lg:mt-0\"><div class=\"space-y-4\">
+</div></div></div><!-- Pagination --><div class=\"mt-8 flex justify-center\"><a href=\"#\" class=\"mx-1 px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600\">1</a> <a href=\"#\" class=\"mx-1 px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300\">2</a> <a href=\"#\" class=\"mx-1 px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300\">3</a> <span class=\"mx-1 px-3 py-2\">...</span> <a href=\"#\" class=\"mx-1 px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300\">Next</a></div></div>
+<!-- Main content (3/5 width) --><div class=\"w-full lg:w-3/5 px-4\"><div class=\"space-y-8\">
+</div></div><!-- Sidebar with smaller article previews (2/5 width) --><div class=\"w-full lg:w-2/5 px-4 mt-8 lg:mt-0\"><div class=\"space-y-4\">
+</div></div>
+<article class=\"bg-white shadow-lg rounded-lg overflow-hidden\"><img src=\"
+\" alt=\"
+\" class=\"w-full h-64 object-cover\"><div class=\"p-6\"><h2 class=\"text-2xl font-bold mb-2\">
+</h2><p class=\"text-gray-600 text-sm mb-4\">By 
+ on 
+</p><p class=\"text-gray-700 mb-4\">
+</p><a href=\"#\" class=\"text-blue-500 hover:underline\">Read More</a></div></article>
+<article class=\"bg-white shadow-lg rounded-lg overflow-hidden\"><div class=\"p-4\"><h3 class=\"text-lg font-semibold mb-2\">
+</h3><p class=\"text-gray-600 text-sm mb-2\">
+</p><p class=\"text-gray-500 text-xs\">
+</p></div></article>

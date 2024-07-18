@@ -26,10 +26,10 @@ func main() {
 
 	// Add a new route for "/home"
 	router.Get("/home", handlers.Make(handlers.HandleHome))
-
 	router.Get("/friends", handlers.Make(handlers.HandleFriends))
 	router.Get("/games", handlers.Make(handlers.HandleGames))
 	router.Get("/blog", handlers.Make(handlers.HandleBlog))
+	router.Get("/blog/search", handlers.Make(handlers.HandleSearch))
 	router.Get("/login", handlers.Make(handlers.HandleLoginIndex))
 
 	listenAddr := os.Getenv("LISTEN_ADDR")

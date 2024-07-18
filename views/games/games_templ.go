@@ -74,7 +74,7 @@ func Partial() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"content\" class=\"flex items-start justify-center h-full bg-gray-50\" hx-swap-oob=\"true\"><div class=\"text-xl border border-red-400 text-blue-500 font-bold\"><h1>Games Page</h1><p>Pong</p><div id=\"game-container\" class=\"relative\"><iframe id=\"pong-frame\" src=\"/static/games/pong.html\" width=\"750\" height=\"585\" style=\"pointer-events: none;\"></iframe><div id=\"game-overlay\" class=\"absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 text-white cursor-pointer\">Click to play</div></div></div></div><script>\n    (function() {\n        const frame = document.getElementById('pong-frame');\n        const overlay = document.getElementById('game-overlay');\n        const container = document.getElementById('game-container');\n\n        function sendMessage(msg) {\n            frame.contentWindow.postMessage(msg, '*');\n        }\n\n        overlay.addEventListener('click', function() {\n            sendMessage('start');\n            overlay.style.display = 'none';\n            frame.style.pointerEvents = 'auto';\n        });\n\n        container.addEventListener('mouseleave', function() {\n            sendMessage('stop');\n            overlay.style.display = 'flex';\n            frame.style.pointerEvents = 'none';\n        });\n    })();\n    </script>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

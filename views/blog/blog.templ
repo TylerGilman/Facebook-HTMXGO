@@ -1,8 +1,19 @@
 package blog
 
+
 import (
-	"facebookhtmx/views/layouts"
+    "facebookhtmx/views/layouts"
 )
+
+
+type Article struct {
+    Title    string
+    Author   string
+    Date     string
+    Summary  string
+    ImageUrl string
+    Category string
+}
 
 templ Blog() {
     @layouts.Base("blog") {
@@ -11,9 +22,122 @@ templ Blog() {
 }
 
 templ Partial() {
-    <div id="content" hx-swap-oob="true" class="flex items-start justify-center h-full bg-gray-50">
-        <div class="text-xl border border-red-400 text-blue-500 font-bold">
-            Blog Page
+    <div id="content" hx-swap-oob="true" class="container mx-auto px-4 py-8">
+        <!-- Search and Filtering Section -->
+        <div class="mb-8 bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-2xl font-bold mb-4">Search Articles</h2>
+            <form hx-post="/blog/search" hx-trigger="submit, change" hx-target="#article-list" hx-indicator="#search-indicator">
+                <div class="flex flex-wrap -mx-2">
+                    <div class="w-full md:w-1/2 px-2 mb-4">
+                        <input type="text" name="query" placeholder="Search..." class="w-full p-2 border rounded"/>
+                    </div>
+                    <div class="w-full md:w-1/4 px-2 mb-4">
+                        <select name="category" class="w-full p-2 border rounded">
+                            <option value="">All Categories</option>
+                            <option>Technology</option>
+                            <option>Travel</option>
+                            <option>Food</option>
+                            <option>Lifestyle</option>
+                        </select>
+                    </div>
+                    <div class="w-full md:w-1/4 px-2 mb-4">
+                        <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Search</button>
+                    </div>
+                </div>
+            </form>
+            <div id="search-indicator" class="htmx-indicator">Searching...</div>
+        </div>
+
+        <div id="article-list" class="flex flex-wrap -mx-4">
+            <!-- Main content (3/5 width) -->
+            <div class="w-full lg:w-3/5 px-4">
+                <div class="space-y-8">
+                    @largeArticle(Article{
+                        Title: "Major Tech Breakthrough",
+                        Author: "John Doe",
+                        Date: "Jan 15, 2024",
+                        Summary: "A significant advancement in quantum computing has been achieved...",
+                        ImageUrl: "/path/to/tech-image.jpg",
+                    })
+                    @largeArticle(Article{
+                        Title: "Exploring Hidden Gems",
+                        Author: "Jane Smith",
+                        Date: "Jan 18, 2024",
+                        Summary: "Discover these lesser-known travel destinations that offer unique experiences...",
+                        ImageUrl: "/path/to/travel-image.jpg",
+                    })
+                    @largeArticle(Article{
+                        Title: "Revolutionary Diet Findings",
+                        Author: "Dr. Alex Johnson",
+                        Date: "Jan 20, 2024",
+                        Summary: "New research reveals surprising facts about popular dieting methods...",
+                        ImageUrl: "/path/to/health-image.jpg",
+                    })
+                </div>
+            </div>
+
+            <!-- Sidebar with smaller article previews (2/5 width) -->
+            <div class="w-full lg:w-2/5 px-4 mt-8 lg:mt-0">
+                <div class="space-y-4">
+                    @smallArticle(Article{Title: "5G Networks Expand", Category: "Tech News", Date: "Jan 22, 2024"})
+                    @smallArticle(Article{Title: "Sustainable Fashion Trends", Category: "Lifestyle", Date: "Jan 23, 2024"})
+                    @smallArticle(Article{Title: "Artificial Intelligence in Healthcare", Category: "Tech & Health", Date: "Jan 24, 2024"})
+                    @smallArticle(Article{Title: "Remote Work Culture", Category: "Business", Date: "Jan 25, 2024"})
+                    @smallArticle(Article{Title: "Eco-friendly Travel Options", Category: "Travel", Date: "Jan 26, 2024"})
+                    @smallArticle(Article{Title: "Innovations in Renewable Energy", Category: "Science", Date: "Jan 27, 2024"})
+                    @smallArticle(Article{Title: "Mindfulness and Productivity", Category: "Lifestyle", Date: "Jan 28, 2024"})
+                </div>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <div class="mt-8 flex justify-center">
+            <a href="#" class="mx-1 px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">1</a>
+            <a href="#" class="mx-1 px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">2</a>
+            <a href="#" class="mx-1 px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">3</a>
+            <span class="mx-1 px-3 py-2">...</span>
+            <a href="#" class="mx-1 px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Next</a>
         </div>
     </div>
+}
+
+templ ArticleList(largeArticles []Article, smallArticles []Article) {
+    <!-- Main content (3/5 width) -->
+    <div class="w-full lg:w-3/5 px-4">
+        <div class="space-y-8">
+            for _, article := range largeArticles {
+                @largeArticle(article)
+            }
+        </div>
+    </div>
+
+    <!-- Sidebar with smaller article previews (2/5 width) -->
+    <div class="w-full lg:w-2/5 px-4 mt-8 lg:mt-0">
+        <div class="space-y-4">
+            for _, article := range smallArticles {
+                @smallArticle(article)
+            }
+        </div>
+    </div>
+}
+
+templ largeArticle(article Article) {
+    <article class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <img src={article.ImageUrl} alt={article.Title} class="w-full h-64 object-cover"/>
+        <div class="p-6">
+            <h2 class="text-2xl font-bold mb-2">{article.Title}</h2>
+            <p class="text-gray-600 text-sm mb-4">By {article.Author} on {article.Date}</p>
+            <p class="text-gray-700 mb-4">{article.Summary}</p>
+            <a href="#" class="text-blue-500 hover:underline">Read More</a>
+        </div>
+    </article>
+}
+
+templ smallArticle(article Article) {
+    <article class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="p-4">
+            <h3 class="text-lg font-semibold mb-2">{article.Title}</h3>
+            <p class="text-gray-600 text-sm mb-2">{article.Category}</p>
+            <p class="text-gray-500 text-xs">{article.Date}</p>
+        </div>
+    </article>
 }

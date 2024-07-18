@@ -11,8 +11,9 @@ templ Games() {
 }
 
 templ Partial() {
-    <div id="content" class="flex items-start justify-center h-full bg-gray-50"
-         hx-swap-oob="true">
+<div id="content" class="flex items-start justify-center h-full bg-gray-50"
+     hx-swap-oob="true"
+     hx-trigger="load->initGame()">
         <div class="text-xl border border-red-400 text-blue-500 font-bold">
             <h1>Games Page</h1>
             <p>Pong</p> 
@@ -24,27 +25,79 @@ templ Partial() {
             </div>
         </div>
     </div>
-    <script>
-    (function() {
-        const frame = document.getElementById('pong-frame');
-        const overlay = document.getElementById('game-overlay');
-        const container = document.getElementById('game-container');
+<script>
+function initGame() {
+    const frame = document.getElementById('pong-frame');
+    const overlay = document.getElementById('game-overlay');
+    const container = document.getElementById('game-container');
 
-        function sendMessage(msg) {
-            frame.contentWindow.postMessage(msg, '*');
+    if (!frame || !overlay || !container) {
+        console.error('Game elements not found. Initialization failed.');
+        return;
+    }
+
+    function sendMessage(msg) {
+        frame.contentWindow.postMessage(msg, '*');
+    }
+
+    overlay.addEventListener('click', function() {
+        sendMessage('start');
+        overlay.style.display = 'none';
+        frame.style.pointerEvents = 'auto';
+        frame.focus(); // Focus the iframe
+    });
+
+    container.addEventListener('mouseleave', function() {
+        sendMessage('stop');
+        overlay.style.display = 'flex';
+        frame.style.pointerEvents = 'none';
+    });
+
+    // Forward keyboard events to the iframe
+    document.addEventListener('keydown', function(e) {
+        if (frame.style.pointerEvents === 'auto') {
+            sendMessage({type: 'keydown', which: e.which});
+            e.preventDefault(); // Prevent scrolling
         }
+    });
 
-        overlay.addEventListener('click', function() {
-            sendMessage('start');
-            overlay.style.display = 'none';
-            frame.style.pointerEvents = 'auto';
-        });
+    document.addEventListener('keyup', function(e) {
+        if (frame.style.pointerEvents === 'auto') {
+            sendMessage({type: 'keyup', which: e.which});
+            e.preventDefault(); // Prevent scrolling
+        }
+    });
 
-        container.addEventListener('mouseleave', function() {
-            sendMessage('stop');
-            overlay.style.display = 'flex';
-            frame.style.pointerEvents = 'none';
-        });
-    })();
-    </script>
+    console.log('Game initialized successfully');
+}
+
+// Try to initialize immediately
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initGame();
+} else {
+    // If the DOM isn't ready, wait for it
+    document.addEventListener('DOMContentLoaded', initGame);
+}
+
+// For HTMX-loaded content
+document.body.addEventListener('htmx:afterSettle', initGame);
+
+// As a fallback, use MutationObserver
+const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+        if (mutation.type === 'childList') {
+            const gameContainer = document.getElementById('game-container');
+            if (gameContainer) {
+                initGame();
+                observer.disconnect();
+                break;
+            }
+        }
+    }
+});
+observer.observe(document.body, { childList: true, subtree: true });
+</script>
+<noscript>
+ <p>Enable Javascript to Play Games</p>
+</noscript>
 }
